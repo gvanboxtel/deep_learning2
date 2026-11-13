@@ -6,7 +6,7 @@ import torchvision
 from torchvision.transforms import v2
 from torch.utils.data import DataLoader
 
-ROOT = f"{Path.home()}/sgoinfre"
+ROOT = f"{Path.home()}/Documents"
 
 
 def main() -> None:
@@ -34,6 +34,13 @@ def main() -> None:
     train_dataloader = DataLoader(training_data, batch_size=64, shuffle=True)
     test_dataloader = DataLoader(test_data, batch_size=64, shuffle=True)
 
+    print(f'training data num: {len(training_data)}')
+    print(f'test data num: {len(test_data)}')
+
+    print(f"shape of a single image: {training_data[0][0].shape}")
+    classes = {training_data[x][1] for x in range(len(training_data))}
+    print(f"Number of classes: {len(classes)}")
+
     labels_map = {
     0: "T-Shirt",
     1: "Trouser",
@@ -55,17 +62,8 @@ def main() -> None:
         plt.title(labels_map[label])
         plt.axis("off")
         plt.imshow(img.squeeze(), cmap="gray")
-    plt.show()
+    figure.savefig("Nice_clothes")
 
-    # Display image and label.
-    train_features, train_labels = next(iter(train_dataloader))
-    print(f"Feature batch shape: {train_features.size()}")
-    print(f"Labels batch shape: {train_labels.size()}")
-    img = train_features[0].squeeze()
-    label = train_labels[0]
-    plt.imshow(img, cmap="gray")
-    plt.show()
-    print(f"Label: {label}")
 
 
 if __name__ == "__main__":
