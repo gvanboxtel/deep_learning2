@@ -1,0 +1,62 @@
+[project]
+name = "deep-learning2"
+version = "0.1.0"
+description = "Piscine Deep Learning 2: convolutions, CNNs and transfer learning."
+requires-python = ">=3.10"
+dependencies = [
+    "matplotlib>=3.10.9",
+]
+
+# Pick one per machine: `uv sync --extra cpu` or `uv sync --extra gpu`.
+# gpu uses cu126, the newest CUDA build that still supports Pascal (GTX 10xx).
+[project.optional-dependencies]
+cpu = ["torch>=2.14.1", "torchvision>=0.29.1"]
+gpu = ["torch>=2.14.1", "torchvision>=0.29.1"]
+
+[tool.uv]
+conflicts = [[{ extra = "cpu" }, { extra = "gpu" }]]
+
+[tool.uv.sources]
+torch = [
+    { index = "pytorch-cpu", extra = "cpu" },
+    { index = "pytorch-cu126", extra = "gpu" },
+]
+torchvision = [
+    { index = "pytorch-cpu", extra = "cpu" },
+    { index = "pytorch-cu126", extra = "gpu" },
+]
+
+[[tool.uv.index]]
+name = "pytorch-cpu"
+url = "https://download.pytorch.org/whl/cpu"
+explicit = true
+
+[[tool.uv.index]]
+name = "pytorch-cu126"
+url = "https://download.pytorch.org/whl/cu126"
+explicit = true
+
+[dependency-groups]
+dev = [
+    "flake8>=7.4.1",
+    "ruff>=0.17.1",
+    "ty>=0.0.89",
+]
+
+[tool.ruff]
+# flake8's default max line length (E501), which the norm checks.
+line-length = 79
+
+[tool.ruff.lint]
+# Preview enables ruff's pycodestyle whitespace rules (E1/E2/E3).
+preview = true
+extend-select = ["E", "W", "I", "B", "UP", "D"]
+# Module docstrings aren't required by the subject.
+ignore = ["D100"]
+
+[tool.ruff.lint.pydocstyle]
+convention = "google"
+
+[tool.ty.rules]
+# torch declares nn.Module.forward as a Callable attribute, not a method.
+invalid-mutable-override = "ignore"
