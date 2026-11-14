@@ -3,6 +3,7 @@ from torchvision import tv_tensors
 from torch import nn
 from ex00.load_images import load_datasets
 
+
 def apply_convolution(image: tv_tensors._image.Image) -> torch.Tensor:
     """Apply a 3x3 convolution with 4 output channels and print the shape.
 
@@ -32,9 +33,6 @@ def main() -> None:
     print(f"input shape: {image.shape}")
     conv_image = apply_convolution(image)
     apply_pool(conv_image)
-
-
-
 
 
 if __name__ == "__main__":

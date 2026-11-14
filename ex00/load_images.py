@@ -8,22 +8,31 @@ from torchvision.transforms import v2
 ROOT = f"{Path.home()}/Documents"
 
 
-def load_datasets() -> tuple[torchvision.datasets.FashionMNIST,
-                             torchvision.datasets.FashionMNIST]:
+def load_datasets() -> tuple[
+    torchvision.datasets.FashionMNIST, torchvision.datasets.FashionMNIST
+]:
     """Load the FashionMNIST training and test sets as float tensors.
 
     Returns:
         The training set and the test set.
     """
-    transform = v2.Compose([
-        v2.ToImage(),
-        v2.ToDtype(torch.float32, scale=True),
-    ])
+    transform = v2.Compose(
+        [
+            v2.ToImage(),
+            v2.ToDtype(torch.float32, scale=True),
+        ]
+    )
     training_data = torchvision.datasets.FashionMNIST(
-        root=ROOT, train=True, download=True, transform=transform,
+        root=ROOT,
+        train=True,
+        download=True,
+        transform=transform,
     )
     test_data = torchvision.datasets.FashionMNIST(
-        root=ROOT, train=False, download=True, transform=transform,
+        root=ROOT,
+        train=False,
+        download=True,
+        transform=transform,
     )
     return training_data, test_data
 
@@ -59,8 +68,8 @@ def main() -> None:
     torch.manual_seed(42)
     training_data, test_data = load_datasets()
 
-    print(f'training data num: {len(training_data)}')
-    print(f'test data num: {len(test_data)}')
+    print(f"training data num: {len(training_data)}")
+    print(f"test data num: {len(test_data)}")
 
     print(f"shape of a single image: {training_data[0][0].shape}")
     print(f"Number of classes: {len(training_data.classes)}")
